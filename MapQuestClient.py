@@ -18,7 +18,12 @@ class MapQuestClient:
 
         # handling if there was an error in get_request
         if "error" in json:
-            return ["ERROR"]
+            return ["Error with request to MapQuest API."]
+        
+        # handling if MapQuest response has error
+        if json["info"]["statuscode"] >= 400:
+            return [json["info"]["messages"][0]]
+
 
         raw_steps = json["route"]["legs"][0]["maneuvers"]
 
@@ -33,6 +38,11 @@ class MapQuestClient:
         """
         Takes steps returned by search() and prints them to console
         """
+        # don't number steps if only 1 step (mostly for printing errors)
+        if len(steps) == 1:
+            print(steps[0]) 
+            return
+
         for index, step in enumerate(steps):
             print("{}. {}".format(index + 1, step))
 
