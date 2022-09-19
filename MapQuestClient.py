@@ -11,7 +11,22 @@ class MapQuestClient:
         """
         Returns list of steps to get from origin to destination
         """
-        pass
+        steps = []
+
+        params = {"from": origin, "to": destination}
+        json = self.get_request("directions/v2/route", params)
+
+        # handling if there was an error in get_request
+        if "error" in json:
+            return ["ERROR"]
+
+        raw_steps = json["route"]["legs"][0]["maneuvers"]
+
+        for raw_step in raw_steps:
+            steps.append(raw_step["narrative"])
+
+            
+        return steps
 
 
     def print_steps(self, steps: list) -> None:
@@ -45,11 +60,9 @@ if __name__ == "__main__":
 
     map_quest_client = MapQuestClient()
 
-    params = {
-        'from': 'Clarendon Blvd,Arlington,VA',
-        'to': '2400+S+Glebe+Rd,+Arlington,+VA'
-    }
+    map_quest_client.search_for_steps('Clarendon Blvd,Arlington,VA', '2400+S+Glebe+Rd,+Arlington,+VA')
 
-    response = map_quest_client.get_request("directions/v2/route", params )
 
-    print(response)
+
+  
+
