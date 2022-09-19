@@ -33,7 +33,9 @@ class MapQuestClient:
         """
         Takes steps returned by search() and prints them to console
         """
-        pass
+        for index, step in enumerate(steps):
+            print("{}. {}".format(index + 1, step))
+
 
     def get_request(self, route: str, params: dict):
         """
@@ -60,7 +62,9 @@ if __name__ == "__main__":
 
     map_quest_client = MapQuestClient()
 
-    map_quest_client.search_for_steps('Clarendon Blvd,Arlington,VA', '2400+S+Glebe+Rd,+Arlington,+VA')
+    steps = map_quest_client.search_for_steps('Clarendon Blvd,Arlington,VA', '2400+S+Glebe+Rd,+Arlington,+VA')
+
+    map_quest_client.print_steps(steps)
 
 
 
