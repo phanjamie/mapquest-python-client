@@ -1,4 +1,4 @@
-from urllib import request
+import requests
 from dotenv import load_dotenv
 import os
 
@@ -24,4 +24,26 @@ class MapQuestClient:
         """
         Makes request to MapQuests api and returns encoded JSON
         """
-        pass 
+        params["key"] = MAPQUEST_KEY
+
+        url = MAPQUEST_URL + "/" + route
+
+        response = requests.get(url = url, params = params)
+
+        return response.json()
+
+        
+
+
+if __name__ == "__main__":
+
+    map_quest_client = MapQuestClient()
+
+    params = {
+        'from': 'Clarendon Blvd,Arlington,VA',
+        'to': '2400+S+Glebe+Rd,+Arlington,+VA'
+    }
+
+    print(params)
+    response = map_quest_client.get_request("directions/v2/route", params )
+    print(response)
