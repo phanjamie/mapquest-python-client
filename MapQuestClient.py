@@ -60,13 +60,10 @@ class MapQuestClient:
 
 if __name__ == "__main__":
 
+    origin = input("From: ")
+    destination = input("To: ")
+
     map_quest_client = MapQuestClient()
 
-    steps = map_quest_client.search_for_steps('Clarendon Blvd,Arlington,VA', '2400+S+Glebe+Rd,+Arlington,+VA')
-
+    steps = map_quest_client.search_for_steps(origin, destination)
     map_quest_client.print_steps(steps)
-
-
-
-  
-
