@@ -30,6 +30,12 @@ class MapQuestClient:
 
         response = requests.get(url = url, params = params)
 
+        try:
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            # handling 400s & 500s
+            return { 'error': 'MapQuest API returned with status code: {}'.format(response.status_code) }
+
         return response.json()
 
         
@@ -44,6 +50,6 @@ if __name__ == "__main__":
         'to': '2400+S+Glebe+Rd,+Arlington,+VA'
     }
 
-    print(params)
     response = map_quest_client.get_request("directions/v2/route", params )
+
     print(response)
